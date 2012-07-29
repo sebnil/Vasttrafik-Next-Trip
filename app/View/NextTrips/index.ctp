@@ -1,6 +1,6 @@
 <?php ?>
 <h2>Västtrafik - Nästa tur</h2>
-<p>Gjord att till viss del likna den bussmonitor som nu finns på de flesta hållplatser</p>
+<p>Tänkt att till viss del likna den bussmonitor som nu finns på de flesta hållplatser</p>
 <?php
 echo $this->Form->create('NextTrip', array('url' => array('action'=>'results'), 'type'=>'GET'));
 echo $this->Form->input('from', array('label' => 'Från'));
