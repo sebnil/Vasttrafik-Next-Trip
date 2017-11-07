@@ -13,9 +13,9 @@ echo $this->Form->end('OK');
 ?>
 <h3>Snabblänkar</h3>
 <ul>
-    <li><?= $this->Html->link('Lindholmen till Chalmers med väder. Maxresultat 4 rader.', '/next_trips/results?from=.lind&to=.ch&weather_image=http%3A%2F%2Fwww.yr.no%2Fsted%2FSverige%2FV%25C3%25A4stra_G%25C3%25B6taland%2FLindholmen~2694868%2Favansert_meteogram.png&no_refresh=0&no_refresh=1'); ?></li>
-    <li><?= $this->Html->link('Lindholmen till Chalmers med väder. Maxresultat 2 rader.', '/next_trips/results?from=.lind&to=.ch&max_results=2&weather_image=http%3A%2F%2Fwww.yr.no%2Fsted%2FSverige%2FV%25C3%25A4stra_G%25C3%25B6taland%2FLindholmen~2694868%2Favansert_meteogram.png&no_refresh=0&no_refresh=1'); ?></li>
-    <li><?= $this->Html->link('Chalmers till Lindholmen utan väder', '/next_trips/results?from=.ch&to=.lind&weather_image=&no_refresh=0&no_refresh=1'); ?></li>
+    <li><?= $this->Html->link('Lindholmen till Chalmers med väder. Maxresultat 4 rader.', '/next_trips/results?from=Lindholmen&to=Chalmers&weather_image=http%3A%2F%2Fwww.yr.no%2Fsted%2FSverige%2FV%25C3%25A4stra_G%25C3%25B6taland%2FLindholmen~2694868%2Favansert_meteogram.png&no_refresh=0&no_refresh=1'); ?></li>
+    <li><?= $this->Html->link('Lindholmen till Chalmers med väder. Maxresultat 2 rader.', '/next_trips/results?from=Lindholmen&to=Chalmers&max_results=2&weather_image=http%3A%2F%2Fwww.yr.no%2Fsted%2FSverige%2FV%25C3%25A4stra_G%25C3%25B6taland%2FLindholmen~2694868%2Favansert_meteogram.png&no_refresh=0&no_refresh=1'); ?></li>
+    <li><?= $this->Html->link('Chalmers till Lindholmen utan väder', '/next_trips/results?from=Chalmers&to=Lindholmen&weather_image=&no_refresh=0&no_refresh=1'); ?></li>
 </ul>
 
 <br/>
@@ -32,7 +32,7 @@ echo $this->Form->end('OK');
     Autorefresh är bra om webbläsaren inte klarar av javascript. 
 </p>
 <h4>Exempel</h4>
-<p>Från: .lind</p>
+<p>Från: Lindholmen</p>
 <p>Till: Chalmers</p>
 <p>Väderbild: http://www.yr.no/sted/Sverige/V%C3%A4stra_G%C3%B6taland/Lindholmen~2694868/avansert_meteogram.png</p>
 <p>Stäng av autorefresh</p>

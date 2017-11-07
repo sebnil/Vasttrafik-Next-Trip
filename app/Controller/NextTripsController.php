@@ -3,6 +3,8 @@
 App::uses('AppController', 'Controller');
 App::uses('HttpSocket', 'Network/Http');
 
+
+
 class NextTripsController extends AppController {
 
     public $helpers = array('Cache');
@@ -12,10 +14,8 @@ class NextTripsController extends AppController {
 	'index' => '+1 day',
 	'results' => '+1 day',
     );
-	
-	// Byt denna mot din egen nyckel. Skicka ett mail till webmaster@vasttrafik.se så får du din nyckel
-    var $authKey = '6511154616';
-	
+   
+    
     var $httpSocket = null;
 
     function index() {
@@ -25,23 +25,6 @@ class NextTripsController extends AppController {
     function results() {
 	$this->set('title_for_layout', 'Nästa tur');
 	$this->httpSocket = new HttpSocket();
-
-	/* Alternativa urler:
-	  $results = $HttpSocket->post('https://www.vasttrafik.se/CustomerServices/EPiServerWs/Service.svc/GetNextTrips', array(
-	  'request' => array(
-	  'RDC_Language' => 'sv-SE',
-	  'StopAreaExternalId' => '9021014006580000'
-	  )
-	  ));
-	  $results = $HttpSocket->post('http://reseplanerare.vasttrafik.se/bin/stboard.exe/sox?ld=fe1&', array(
-	  'input' => '.lind',
-	  'disableEquivs' => 1,
-	  'viewMode' => 'COMPACT',
-	  'preview' => '60',
-	  'sortType' => 'LINE',
-	  'format' => 'json',
-	  'boardType=dep&start:' => 'Avgång »'
-	  )); */
     }
 
     function vasttrafik_xhr() {
@@ -51,6 +34,7 @@ class NextTripsController extends AppController {
 	// httpSocket är ett objekt som vi gör alla http-anrop med
 	$this->httpSocket = new HttpSocket();
 
+
 	// fortsätt endast om from och to är satta
 	if (!empty($this->params->query['from']) && !empty($this->params->query['to'])) {
 	    // hämta id till hållplatserna. ta första resultatet
@@ -58,11 +42,15 @@ class NextTripsController extends AppController {
 	    $toLocationId = $this->getStopId($this->params->query['to']);
 
 	    if (!empty($fromLocationId) && !empty($toLocationId)) {
-		$results = $this->httpSocket->get('http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard', array(
-		    'authKey' => $this->authKey,
+	    	$auth_value = "Bearer GnN_S8UeFWJ3Smfy0YMh58J1H0Qa";
+		$results = $this->httpSocket->get('https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard', array(
 		    'format' => 'json',
 		    'id' => $fromLocationId,
 		    'direction' => $toLocationId
+		    ), array(
+				'header' => array(
+					'Authorization' => "Bearer GnN_S8UeFWJ3Smfy0YMh58J1H0Qa" // Byt denna mot din egen nyckel. Skicka ett mail till webmaster@vasttrafik.se så får du din nyckel
+				)
 			));
 		$departureBoard = json_decode($results->body, true);
 
@@ -92,7 +80,7 @@ class NextTripsController extends AppController {
 	    $weatherImage = $this->params->query['weather_image'];
 	
 	// lägg till http:// om det saknas
-	if (strpos($weatherImage, 'http://') !== 0 && strpos($weatherImage, 'http://') !== 0)
+	if (strpos($weatherImage, 'http://') !== 0 && strpos($weatherImage, 'https://') !== 0)
 	    $weatherImage = 'http://' . $weatherImage;
 	
 	$this->set(compact('weatherImage'));
@@ -103,11 +91,14 @@ class NextTripsController extends AppController {
 	// ta från cache om den finns. hållplatserna ändras inte så ofta.
 	$locationId = Cache::read('getStopId.' . md5($query), 'long');
 	if (!$locationId) {
-	    $locations = $this->httpSocket->get('http://api.vasttrafik.se/bin/rest.exe/v1/location.name', array(
-		'authKey' => $this->authKey,
+	    $locations = $this->httpSocket->get('https://api.vasttrafik.se/bin/rest.exe/v2/location.name', [
 		'format' => 'json',
 		'input' => $query
-		    ));
+		    ], array(
+				'header' => array(
+					'Authorization' => "Bearer GnN_S8UeFWJ3Smfy0YMh58J1H0Qa" // Byt denna mot din egen nyckel. Skicka ett mail till webmaster@vasttrafik.se så får du din nyckel
+				)
+			));
 	    $locations = json_decode($locations->body, true);
 	    if (isset($locations['LocationList']['StopLocation']['id']))
 		$locationId = $locations['LocationList']['StopLocation']['id'];
