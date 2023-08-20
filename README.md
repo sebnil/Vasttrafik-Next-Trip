@@ -1,4 +1,8 @@
 # Västtrafik Next Trip
+
+# 2023-08-20 Västtrafik has changed their API and this code no longer works :( 
+
+
 Visar nästa tur på Västtrafik. Mer info på http://sebastiannilsson.com/blogg/hittade-ett-anvandningsomrade-raspberry-pi/
 
 ![Screenshot](https://sebastiannilsson.com/wp-content/uploads/2012/06/v%C3%A4sttrafik-widget-2-150x150.png)
